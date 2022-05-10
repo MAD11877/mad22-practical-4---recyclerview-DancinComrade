@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Get random integer from ListActivity
         TextView helloView = (TextView) findViewById(R.id.helloView);
-        int randInt = getIntent().getIntExtra("randInt", 0);
-        helloView.setText("MAD" + " " + randInt);
+        TextView placeholderView = (TextView) findViewById(R.id.placeholderView);
+        Bundle bundle = getIntent().getExtras();
+        helloView.setText("Name" + " " + bundle.getString("Name"));
+        placeholderView.setText("Description" + " " + bundle.getString("Des"));
 
         Button msgButton = (Button) findViewById(R.id.msgButton);
         msgButton.setOnClickListener(new View.OnClickListener() {
