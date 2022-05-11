@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -35,6 +38,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // Assign individual values to the name and description
         // Get specific user object from list based on its position in RecyclerView
@@ -45,16 +53,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         holder.picView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = userModels.get(holder.getAdapterPosition()).Name;
-                if (Integer.parseInt(String.valueOf(userName.charAt(userName.length()-1))) == 7) {
-                    LinearLayout pictureLayout = new LinearLayout(view.getContext());
-                    pictureLayout.layout(0, 0, 100, 0);
-                    pictureLayout.setLayoutParams(new LinearLayout.LayoutParams(1000, 60));
-                    pictureLayout.setOrientation(LinearLayout.HORIZONTAL);
-                    ((ViewGroup) view).addView(pictureLayout);
-                    ImageView myImage = new ImageView(view.getContext());
-                    myImage.setImageResource(R.drawable.ic_android_black_24dp);
-                    pictureLayout.addView(myImage);
+                //Integer.parseInt(String.valueOf(userName.charAt(userName.length()-1))) == 7
+                if (userModels.get(holder.getAdapterPosition()).Name.endsWith("7")) {
+
+                    holder.picView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            holder.imageView2.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+
+/*                    // Find card view and add layout into card view
+                    LayoutInflater inflater = LayoutInflater.from(holder.viewItem.getContext());
+
+                    // Build layout but never insert the layout
+                    View dynamicView = inflater.inflate(R.layout.rec, null);
+
+                    CardView cardView = holder.viewItem.findViewById(R.id.cardView);
+                    cardView.addView(dynamicView);*/
+
+                    /* Method 2 - Without Layout Inflater */
+                    // Find the CardView and Insert dynamicView into it
+
+                    /*ConstraintLayout constraintLayout = holder.viewItem.
+                            findViewById(R.id.parentConstraintLayout);
+                    ConstraintSet set = new ConstraintSet();
+                    set.clone(constraintLayout);
+
+                    ImageView dynamicImage = new ImageView(holder.viewItem.getContext());
+                    dynamicImage.setImageResource(R.drawable.ic_android_black_24dp);
+                    dynamicImage.setId(0);
+                    constraintLayout.addView(dynamicImage);
+
+                    set.connect(R.id.dynamicImage,ConstraintSet.RIGHT,R.id.cardView,ConstraintSet.RIGHT,0);
+                    set.connect(R.id.dynamicImage,ConstraintSet.TOP,R.id.cardView,ConstraintSet.TOP,0);
+                    set.applyTo(constraintLayout);*/
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
