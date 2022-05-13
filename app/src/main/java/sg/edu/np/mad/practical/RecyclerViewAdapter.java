@@ -32,14 +32,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.recycler_view_row, parent, false);
+        View view;
+
+        // ViewType obtained from the getItemViewType() function
+        if (viewType == 1) {
+            view = inflater.inflate(R.layout.recycler_view_row_dynamic, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.recycler_view_row, parent, false);
+        }
 
         return new RecyclerViewHolder(view);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        // Check if the last character of the User object name is "7"
+        if (userModels.get(position).Name.endsWith("7")) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -49,73 +61,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         holder.nameView.setText("Name: " + userModels.get(position).Name);
         holder.desView.setText("Description: " + userModels.get(position).Description);
 
-        // Since position is here, put the onClickListener() here
+        // Set onClickListener to pic
         holder.picView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Integer.parseInt(String.valueOf(userName.charAt(userName.length()-1))) == 7
-                if (userModels.get(holder.getAdapterPosition()).Name.endsWith("7")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                    holder.picView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            holder.imageView2.setVisibility(View.VISIBLE);
-                        }
-                    });
+                builder.setTitle("Profile");
+                builder.setMessage("Name: " + userModels.get(holder.getAdapterPosition()).Name);
+                builder.setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                    }
+                });
+                builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Bundle extras = new Bundle();
+                        extras.putString("Name", userModels.get(holder.getAdapterPosition()).Name);
+                        extras.putString("Des", userModels.get(holder.getAdapterPosition()).Description);
 
-/*                    // Find card view and add layout into card view
-                    LayoutInflater inflater = LayoutInflater.from(holder.viewItem.getContext());
+                        Intent mainActivity = new Intent(view.getContext(), MainActivity.class);
+                        mainActivity.putExtras(extras);
+                        view.getContext().startActivity(mainActivity);
+                    }
+                });
 
-                    // Build layout but never insert the layout
-                    View dynamicView = inflater.inflate(R.layout.rec, null);
-
-                    CardView cardView = holder.viewItem.findViewById(R.id.cardView);
-                    cardView.addView(dynamicView);*/
-
-                    /* Method 2 - Without Layout Inflater */
-                    // Find the CardView and Insert dynamicView into it
-
-                    /*ConstraintLayout constraintLayout = holder.viewItem.
-                            findViewById(R.id.parentConstraintLayout);
-                    ConstraintSet set = new ConstraintSet();
-                    set.clone(constraintLayout);
-
-                    ImageView dynamicImage = new ImageView(holder.viewItem.getContext());
-                    dynamicImage.setImageResource(R.drawable.ic_android_black_24dp);
-                    dynamicImage.setId(0);
-                    constraintLayout.addView(dynamicImage);
-
-                    set.connect(R.id.dynamicImage,ConstraintSet.RIGHT,R.id.cardView,ConstraintSet.RIGHT,0);
-                    set.connect(R.id.dynamicImage,ConstraintSet.TOP,R.id.cardView,ConstraintSet.TOP,0);
-                    set.applyTo(constraintLayout);*/
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-
-                    builder.setTitle("Profile");
-                    builder.setMessage("Name: " + userModels.get(holder.getAdapterPosition()).Name);
-                    builder.setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    });
-                    builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Bundle extras = new Bundle();
-                            extras.putString("Name", userModels.get(holder.getAdapterPosition()).Name);
-                            extras.putString("Des", userModels.get(holder.getAdapterPosition()).Description);
-
-                            Intent mainActivity = new Intent(view.getContext(), MainActivity.class);
-                            mainActivity.putExtras(extras);
-                            view.getContext().startActivity(mainActivity);
-                        }
-                    });
-
-                    AlertDialog madnessAlert = builder.create();
-                    madnessAlert.show();
-                }
+                AlertDialog madnessAlert = builder.create();
+                madnessAlert.show();
             }
         });
     }
