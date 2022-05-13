@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     static ArrayList<User> userModels;
@@ -22,19 +20,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get random integer from ListActivity
-        TextView helloView = (TextView) findViewById(R.id.helloView);
-        TextView placeholderView = (TextView) findViewById(R.id.placeholderView);
-
         Intent fromList = getIntent();
-        String profilename = fromList.getStringExtra("RandomNum");
-        String descriptions = fromList.getStringExtra("RandomDesc");
+        // If the static list is null, get the generated list from intent (prevent overwrite)
         if (userModels == null) {
             userModels = fromList.getExtras().getParcelableArrayList("currentUsers");
         }
+
+        // Get index of item in list
         int position = fromList.getIntExtra("position",0);
-        User user = userModels.get(position);
-        // Reference the user object in the MainActivity's list
+        userObject = userModels.get(position);
+
+        TextView helloView = (TextView) findViewById(R.id.helloView);
+        TextView placeholderView = (TextView) findViewById(R.id.placeholderView);
         helloView.setText("Name" + " " + userObject.Name);
         placeholderView.setText("Description" + " " + userObject.Description);
 
@@ -62,10 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-/*        Bundle bundle = getIntent().getExtras();
-        helloView.setText("Name" + " " + bundle.getString("Name"));
-        placeholderView.setText("Description" + " " + bundle.getString("Des"));*/
 
         Button msgButton = (Button) findViewById(R.id.msgButton);
         msgButton.setOnClickListener(new View.OnClickListener() {

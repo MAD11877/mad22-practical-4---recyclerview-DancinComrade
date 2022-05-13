@@ -80,13 +80,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-/*                        Bundle extras = new Bundle();
-                        extras.putString("Name", userModels.get(holder.getAdapterPosition()).Name);
-                        extras.putString("Des", userModels.get(holder.getAdapterPosition()).Description);*/
                         User userObj = userModels.get(holder.getAdapterPosition());
 
+                        // Put multiple extras in one intent
                         Intent mainActivity = new Intent(view.getContext(), MainActivity.class);
+                        int pos = userModels.indexOf(userObj);
 
+                        mainActivity.putExtra("position",pos);
                         mainActivity.putParcelableArrayListExtra("currentUsers",userModels);
                         view.getContext().startActivity(mainActivity);
                     }

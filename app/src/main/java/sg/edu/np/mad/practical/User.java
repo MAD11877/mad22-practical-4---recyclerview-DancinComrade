@@ -37,6 +37,7 @@ public class User implements Parcelable {
         parcel.writeString(Name);
         parcel.writeString(Description);
         parcel.writeInt(Id);
+        // CAUTION: Doesn't work for API 24
         parcel.writeBoolean(Followed);
     }
 

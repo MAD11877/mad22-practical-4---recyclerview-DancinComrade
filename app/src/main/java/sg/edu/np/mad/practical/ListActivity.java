@@ -22,37 +22,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-/*        ImageView avatarView = (ImageView) findViewById(R.id.avatarView);
-        avatarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-
-                builder.setTitle("Profile");
-                builder.setMessage("MADness");
-                builder.setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
-                    // Get random positive integer only
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Random random = new Random();
-                        int randInt = random.nextInt(999999999);
-                        Intent mainActivity = new Intent(ListActivity.this, MainActivity.class);
-                        mainActivity.putExtra("randInt", randInt);
-                        startActivity(mainActivity);
-                    }
-                });
-
-                AlertDialog madnessAlert = builder.create();
-                madnessAlert.show();
-            }
-        });*/
-
         // Generate 20 user objects with randomized name, description and boolean Follow.
         for (int i = 0; i < 20; i++) {
             Random random = new Random();
