@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.style.IconMarginSpan;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
@@ -78,12 +80,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Bundle extras = new Bundle();
+/*                        Bundle extras = new Bundle();
                         extras.putString("Name", userModels.get(holder.getAdapterPosition()).Name);
-                        extras.putString("Des", userModels.get(holder.getAdapterPosition()).Description);
+                        extras.putString("Des", userModels.get(holder.getAdapterPosition()).Description);*/
+                        User userObj = userModels.get(holder.getAdapterPosition());
 
                         Intent mainActivity = new Intent(view.getContext(), MainActivity.class);
-                        mainActivity.putExtras(extras);
+
+                        mainActivity.putParcelableArrayListExtra("currentUsers",userModels);
                         view.getContext().startActivity(mainActivity);
                     }
                 });

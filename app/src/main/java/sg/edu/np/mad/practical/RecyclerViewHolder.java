@@ -1,5 +1,6 @@
 package sg.edu.np.mad.practical;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,5 +21,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         imageView2 = itemView.findViewById(R.id.imageView2);
         nameView = itemView.findViewById(R.id.userNameView);
         desView = itemView.findViewById(R.id.userDesView);
+
     }
 }
